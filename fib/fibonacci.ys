@@ -1,0 +1,108 @@
+
+.pos 0x700
+main:
+    #user number
+    irmovl Stack, %rsp
+    irmovl stdin, %rbx
+    irmovl prompt, %rcx
+    call readInt
+    subl $4, %rsp
+    rmmovl %rax, (%rsp)
+
+    # is it perfect square
+    call isPerfectSquare
+
+    # if perfect square, look if it is Fibonacci
+    cmpl $0, %rax
+    je isFibonacci
+
+    # if not perfect square, not Fibonacci
+    irmovl notFib, %rcx
+    call printStr
+    irmovl newline, %rcx
+    call printStr
+    jmp exit
+
+isFibonacci:
+    #is Fibonacci?
+    call isFibonacciNumber
+    cmpl $0, %rax
+    je notFib
+
+    # if Fibonacci, print msg
+    irmovl fib, %rcx
+    call printStr
+    irmovl newline, %rcx
+    call printStr
+    jmp exit
+
+notFib:
+    # if not Fibonacci, print msg
+    irmovl notFib, %rcx
+    call printStr
+    irmovl newline, %rcx
+    call printStr
+
+exit:
+    #exit
+    hlt
+
+isPerfectSquare:
+    # perfect square
+    pushl %rbp
+    rrmovl %rsp, %rbp
+    irmovl 4(%rbp), %rcx
+    cmpl $0, %rcx
+    jle isPerfectSquare_end
+
+    xorl %rdx, %rdx
+    movl $1, %rax
+    movl $2, %rbx
+    jmp isPerfectSquare_loop
+
+isPerfectSquare_loop:
+    cmpl %rcx, %rax
+    jge isPerfectSquare_end
+    addl %rbx, %rax
+    addl $2, %rbx
+    jmp isPerfectSquare_loop
+
+isPerfectSquare_end:
+    subl %rcx, %rax
+    cmpl $0, %rax
+    sete %al
+    movzbl %al, %rax
+    leave
+    ret
+
+isFibonacciNumber:
+    # is Fibonacci?
+    pushl %rbp
+    rrmovl %rsp, %rbp
+    irmovl 4(%rbp), %rcx
+    irmovl $5, %rdx
+    irmovl %rcx, %rax
+    imull %rcx, %rax
+    imull %rdx, %rax
+    addl $4, %rax
+    pushl %e
+    call isPerfectSquare
+    addl $4, %rsp
+    cmpl $0, %rax
+    je isFibonacciNumber_end
+    irmovl $5, %rdx
+    irmovl %rcx, %rax
+    imull %rcx, %rax
+    imull %rdx, %rax
+    subl $4, %rax
+    pushl %rax
+    call isPerfectSquare
+    addl $4, %rsp
+
+isFibonacciNumber_end:
+    leave
+    ret
+
+
+
+
