@@ -3,21 +3,24 @@ main:
     irmovq $1, %r9      #constant for addition
     popq %r10           #new number from stack
     subq %r8, %r10      #if number = 0
-    je keskiarvo        #stack is empty and jump to count the average
+    je average            #stack is empty and jump to count the average
     addq %r10, %r11     #adding the number to the sum of numbers
     addq %r9, %r12      #how many numbers in the stack (stacksize)
     jmp main            #looping again
+
+average:                  #counting the average sum/count
+    xorq %rax, %rax
+    # r12 has count of numbers
+    # r11 has sum
+start:    
+    rrmovq %r11, %r13
+    subq %r12, %r11 
+    jl end
+    addq %r9, %rax
+    jmp start
     
-keskiarvo:              #counting the average
-    addq %r9, %rax      #increase by 1
-    subq %r12, %r11     #sub stacksize from sum
-    jg keskiarvo        #if r11 > r12, loop again
-    subq %r8, %r11      #else, comparing to 0
-    jne pyoristys       #if r11 != 0, rounding
-    jmp lopetus         #else stop
-    
-pyoristys:              #rounding
-    subq %r9, %rax      #average -= 1
-    
-lopetus:
+end:
     halt
+.pos 0x200
+stack:
+
