@@ -1,0 +1,24 @@
+main:
+    irmovq $0, %r12         #constant for comparing
+    popq %r8                #the first number
+    rrmovq %r8, %rsi        #place for min number
+    rrmovq %r8, %rdi        #place for max number
+    
+compare:                    #loop
+    popq %r8                #pop the next from the stack
+    subq %r12,%r8           #subrutine for if its 0
+    je loop                 #if is empty stop
+    rrmovq %rdi, %r9        #stack max in r9 
+    rrmovq %rsi, %r10       #stack min in r10 
+    subq %r8, %r9           #subrutine if r8 is bigger
+    subq %r12, %r9
+    cmovl %r8, %rdi         #make r8 the new max
+    subq %r8, %r10          #if r8 is smaller
+    subq %r12, %r10
+    cmovg %r8, %rsi         #make r8 new min
+    jmp compare            	#loop again
+
+loop:                    #stop
+    halt
+	
+	

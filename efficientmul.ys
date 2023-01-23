@@ -1,0 +1,35 @@
+main:
+    irmovq $1, %r8          #control bit
+    irmovq $1, %r10         #sub constant 
+    irmovq $1, %rdx         #move constant 
+    irmovq $0, %rbx         #compare constant 
+    irmovq $40, %r13        #check
+    rrmovq %r11, %r9        #move mul to r9
+    andq %r8, %r9           #if control bit == 1, add mult
+    cmovg %r12, %rax
+    jmp control           #jump to control
+    
+control:
+    addq %r10, %rdx         #in bit
+    addq %r8, %r8           #move left r8
+    subq %r10, %r13         #sub 1
+    jl loop               	#if check == 0, stop
+    rrmovq %r11, %r9        #move mult r9
+    andq %r8, %r9           #if control bit => 1
+    cmovge %rdx, %r9        #r9 constant move
+    jg multiplication           #jump to  multiplication
+    jmp control          	#else control
+
+multiplication:             
+    addq %rcx, %rcx         #mult rcx by two
+    subq %rbx, %rcx         #compare to 0
+    cmove %r12, %rcx        #if equal, move r12 to rcx
+    subq %r10, %r9          #sub 1
+    jg multiplication       #if control > 1 go mult
+    addq %rcx, %rax         #rax += rcx
+    irmovq $0, %rcx         #reset rcx to 0
+    jmp control
+
+loop:                     #stop
+    halt
+
