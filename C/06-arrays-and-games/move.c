@@ -16,12 +16,18 @@ int main()
 }
 
 void movavg(float *array, uint8_t array_size, uint8_t window_size){
-    uint8_t i;
+    uint8_t i, j;
     float sol;
-   
-    for (i=0; i < window_size; i++) {
-        sol+=array[i];
-        sol += (1/3)*sol;
-        printf("SMA is: %f", sol/array_size);
+
+    printf("SMA is: ");
+    for (i=0; i <= array_size-window_size; i++) {
+        sol=0;
+        for (j=0; j < window_size; j++) {
+            sol+=array[i+j];
+        }
+        printf("%.2f", sol/window_size);
+        if(i < array_size-window_size){
+            printf(",");
+        }
     }
 }

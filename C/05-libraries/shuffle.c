@@ -8,7 +8,7 @@ void shuffle(uint8_t *list, uint16_t list_size);
 int main() {
 
     srand (time(NULL));
-    uint8_t size=rand();
+    uint8_t size=rand()%255+1;
     uint8_t list[size];
     for (int i=0; i<size;i++){
         list[i]=rand()%10;
@@ -17,7 +17,7 @@ int main() {
     printf("%d",list[i]);
     }
     printf("\n");
-    shuffle(&list,size);
+    shuffle(list,size);
     for (int i=0;i<size;i++){
     printf("%d",list[i]);
     }

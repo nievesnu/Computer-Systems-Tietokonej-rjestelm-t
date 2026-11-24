@@ -13,7 +13,7 @@ struct path {
 
 void calculate_path_distance(struct path *path);
 
-main(){
+int main(void){
     struct point a1, a2 ,a3;
     a1.coordinates[0]=1.00;
     a1.coordinates[1]=2.00;
@@ -36,7 +36,7 @@ return 0;
 void calculate_path_distance(struct path *path){
 
 struct point *first=path->points;
-double d;
+double d = 0.0;
 while(first->next!=NULL){
 d+=sqrt(pow((first->coordinates[0]-first->next->coordinates[0]),2) +
                  pow((first->coordinates[1]-first->next->coordinates[1]),2) +

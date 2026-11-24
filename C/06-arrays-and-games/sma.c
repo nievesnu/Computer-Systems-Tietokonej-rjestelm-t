@@ -9,7 +9,10 @@ void movavg(float *array, uint8_t array_size, uint8_t window_size);
 void movavg(float *array, uint8_t array_size, uint8_t window_size){
     uint8_t i, j, k=0, l;
     float sol1;
-    float store[array_size-window_size ];
+    if(window_size==0 || window_size>array_size){
+        return;
+    }
+    float store[array_size-window_size+1];
     for (i=0; i < array_size-window_size + 1; i++) {
         sol1=0;
         for (j=0; j < window_size; j++) {

@@ -10,7 +10,8 @@ int main()
     float value = 0.03125;
     float sol = temperature(data, value);
 
-    return sol;
+    printf("Temperature is: %f", sol);
+    return 0;
 }
 
 

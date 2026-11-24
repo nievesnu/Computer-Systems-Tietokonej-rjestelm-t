@@ -9,8 +9,8 @@ void shuffle(uint8_t *list, uint16_t list_size){
 
     int i,j;
     int range=list_size;
-    uint8_t scratch;
-    scratch = malloc(sizeof(uint8_t) * list_size);
+    int *scratch;
+    scratch = malloc(sizeof(int) * list_size);
     int index;
 
     for (j=0;j<list_size;j++){
@@ -24,4 +24,5 @@ void shuffle(uint8_t *list, uint16_t list_size){
              list[i]  =  scratch[index];
             scratch[index]=-1;
     }
+    free(scratch);
 }

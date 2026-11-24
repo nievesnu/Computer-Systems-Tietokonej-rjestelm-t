@@ -10,7 +10,8 @@ int main()
     uint16_t data = 0b1000000000000000;
     float sol = humidity(data);
 
-    return sol;
+    printf("Humidity is: %f", sol);
+    return 0;
 }
 
 float humidity(uint16_t reg){
